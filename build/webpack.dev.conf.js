@@ -11,14 +11,11 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 })
 
 module.exports = merge(baseWebpackConfig, {
-  entry: {
-    app: './test/main.js'
-  },
   module: {
     loaders: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
   // eval-source-map is faster for development
-  devtool: '#source-map',
+  devtool: '#inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env
