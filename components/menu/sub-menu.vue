@@ -5,11 +5,13 @@
          :style="styles">
       <slot name="title"></slot>
     </div>
-    <ul class="ant-menu ant-menu-sub"
-        :class="subCls"
-        v-show="opened">
-      <slot></slot>
-    </ul>
+    <v-transition :type="transitionType">
+      <ul class="ant-menu ant-menu-sub"
+          :class="subCls"
+          v-show="opened">
+        <slot></slot>
+      </ul>
+    </v-transition>
   </li>
 </template>
 
@@ -37,7 +39,8 @@
         opened: false,
         selected: false,
         paddingLeft: null,
-        timeout: null
+        timeout: null,
+        transitionType: null
       }
     },
     watch: {
@@ -96,8 +99,10 @@
         if (this.mode === ENUM.MODE.HORIZONTAL) {
           this.$el.addEventListener('mouseenter', this.onMouseEnter)
           this.$el.addEventListener('mouseleave', this.onMouseLeave)
+          this.transitionType = 'slide-up'
         } else {
           this.$refs['submenu-title'].addEventListener('click', this.onTitleClick)
+          this.transitionType = 'collapse'
         }
 
         if (this.defaultOpened) {

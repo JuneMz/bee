@@ -6,6 +6,8 @@ import Dropdown from './dropdown'
 import Input from './input'
 import Select from './select'
 
+import VTransition from './transition'
+
 const components = {
   Menu,
   SubMenu: Menu.SubMenu,
@@ -22,7 +24,8 @@ const components = {
   Input,
   Select,
   Option: Select.Option,
-  OptionGroup: Select.OptionGroup
+  OptionGroup: Select.OptionGroup,
+  VTransition
 }
 
 Object.keys(components).forEach((key) => {
@@ -43,7 +46,7 @@ const install = (Vue) => {
   })
 }
 
-module.exports = {
+export default {
   version: '0.0.1',
   install,
   ...components

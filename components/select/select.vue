@@ -36,20 +36,23 @@
         </template>
       </div>
       <span class="ant-select-arrow" unselectable="unselectable" style="user-select: none;"><b></b></span></div>
-    <div class="ant-select-dropdown  ant-select-dropdown-placement-bottomLeft"
-         ref="dropdown"
-         v-show="visible">
-      <v-menu
-          ref="menu"
-          mode="inline"
-          prefixCls="ant-select-dropdown"
-          @onSelect="onSelect"
-          :activeIndex="activeIndex"
-          :searchKey="searchKey"
-          :defaultSelectedIndex="value">
-        <slot></slot>
-      </v-menu>
-    </div>
+    <v-transition type="slide-up">
+      <div class="ant-select-dropdown"
+           :class="placementCls"
+           ref="dropdown"
+           v-show="visible">
+        <v-menu
+            ref="menu"
+            mode="inline"
+            :prefixCls="prefixCls"
+            @onSelect="onSelect"
+            :activeIndex="activeIndex"
+            :searchKey="searchKey"
+            :defaultSelectedIndex="value">
+          <slot></slot>
+        </v-menu>
+      </div>
+    </v-transition>
   </div>
 </template>
 
@@ -92,6 +95,7 @@
     },
     data() {
       return {
+        prefixCls: 'ant-select-dropdown',
         focused: false,
         currentValue: this.value,
         searchKey: '',

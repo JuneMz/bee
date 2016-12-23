@@ -74,7 +74,7 @@ const routes = [
 ]
 
 export default new VueRouter({
-  mode: 'hash',
+  mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes
 })

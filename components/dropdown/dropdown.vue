@@ -1,11 +1,14 @@
 <template>
   <div v-clickoutside="hide">
     <slot name="title"></slot>
-    <div class="ant-dropdown  ant-dropdown-placement-bottomLeft"
-         ref="menu"
-         v-show="visible">
-      <slot name="menu"></slot>
-    </div>
+    <v-transition type="slide-up">
+      <div class="ant-dropdown"
+           :class="placementCls"
+           ref="menu"
+           v-show="visible">
+        <slot name="menu"></slot>
+      </div>
+    </v-transition>
   </div>
 </template>
 
@@ -30,6 +33,7 @@
     },
     data() {
       return {
+        prefixCls: 'ant-dropdown',
         timeout: null
       }
     },

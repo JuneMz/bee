@@ -33,7 +33,8 @@ export default {
 
   data() {
     return {
-      visible: false
+      visible: false,
+      currentPalcement: this.placement
     }
   },
 
@@ -47,6 +48,12 @@ export default {
     }
   },
 
+  computed: {
+    placementCls() {
+      const cls = this.currentPalcement[0] + (this.currentPalcement.length > 1 ? { start: 'Left' }[this.currentPalcement[1]] : '')
+      return [`${this.prefixCls}-placement-${cls}`]
+    }
+  },
   methods: {
     createPopper() {
       if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.placement)) {
@@ -79,10 +86,19 @@ export default {
         this.resetTransformOrigin()
         this.$nextTick(this.updatePopper)
       })
+      this.popperJS.onUpdate(() => {
+        this.getPlacement()
+      })
+    },
+
+    getPlacement() {
+      this.currentPalcement = this.popperEl.getAttribute('x-placement').split('-')
+      return this.currentPalcement
     },
 
     updatePopper() {
       if (this.popperJS) {
+        this.getPlacement()
         this.popperJS.update()
       } else {
         this.createPopper()
@@ -104,7 +120,7 @@ export default {
 
     resetTransformOrigin() {
       const placementMap = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' }
-      const placement = this.popperEl.getAttribute('x-placement').split('-')[0]
+      const placement = this.getPlacement()[0]
       const origin = placementMap[placement]
       this.popperEl.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1
         ? `center ${origin}`

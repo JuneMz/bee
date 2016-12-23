@@ -54,7 +54,6 @@ Store.prototype.mutations = {
     }
   },
   selectMenu(state, { index }) {
-    if (index === state.selectedIndex) return
     state.selectedIndex = index
 
     let item
