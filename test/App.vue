@@ -15,29 +15,34 @@
             </template>
             <v-menu-item-group title="General">
               <v-menu-item index="button">
-                <span to="/button">按钮</span>
+                <span to="/button">Button 按钮</span>
               </v-menu-item>
             </v-menu-item-group>
             <v-menu-item-group title="Layout">
               <v-menu-item index="grid">
-                <span to="/grid">栅格</span>
+                <span to="/grid">Grid 栅格</span>
               </v-menu-item>
             </v-menu-item-group>
             <v-menu-item-group title="Navigation">
               <v-menu-item index="menu">
-                <span to="/menu">菜单</span>
+                <span to="/menu">Menu 菜单</span>
               </v-menu-item>
               <v-menu-item index="dropdown">
-                <span to="/dropdown">下拉菜单</span>
+                <span to="/dropdown">Dropdown 下拉菜单</span>
               </v-menu-item>
 
             </v-menu-item-group>
             <v-menu-item-group title="Data Entry">
               <v-menu-item index="input">
-                <span to="/input">输入框</span>
+                <span to="/input">Input 输入框</span>
               </v-menu-item>
               <v-menu-item index="select">
-                <span to="/select">选择器</span>
+                <span to="/select">Select 选择器</span>
+              </v-menu-item>
+            </v-menu-item-group>
+            <v-menu-item-group title="Data Display">
+              <v-menu-item index="collapse">
+                <span to="/collapse">Collapse 折叠面板</span>
               </v-menu-item>
             </v-menu-item-group>
           </v-sub-menu>

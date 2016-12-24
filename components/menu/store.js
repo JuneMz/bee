@@ -1,60 +1,26 @@
-function Store(component, initialState = {}) {
-  if (!component) {
-    throw new Error('component is required.')
-  }
-  this.component = component
+import BaseStore from '../utils/base-store'
 
-  this.state = {
-    ENUM_MODE: {
-      VERTICAL: 'vertical',
-      HORIZONTAL: 'horizontal',
-      INLINE: 'inline'
-    },
-    uniqueOpened: false,
-    openIndexs: [],
-    selectedIndex: '',
-    router: false
-  }
-
-  Object.keys(initialState).forEach((prop) => {
-    if ({}.hasOwnProperty.call(this.state, prop)) {
-      this.state[prop] = initialState[prop]
-    }
-  })
-}
-
-Store.prototype.openChange = function openChange() {
-  const deepNodes = (nodes) => {
-    nodes.forEach((node) => {
-      if (node.$options.name === 'VSubMenu') {
-        node.opened = this.state.openIndexs.indexOf(node.index) > -1
-      }
-      deepNodes(node.$children)
-    })
-  }
-  deepNodes(this.component.$children)
-  this.component.$emit('onOpenChange', this.state.openIndexs)
-}
-
-Store.prototype.mutations = {
-  openMenu(state, { index, indexPath = [] }) {
-    if (state.openIndexs.indexOf(index) > -1) return
-    if (state.uniqueOpened) {
-      state.openIndexs = [].concat(indexPath)
+class Mutations {
+  openMenu({ index, indexPath = [] }) {
+    if (this.state.openIndexs.indexOf(index) > -1) return
+    if (this.state.uniqueOpened) {
+      this.state.openIndexs = [].concat(indexPath)
     } else {
-      state.openIndexs.push(index)
+      this.state.openIndexs.push(index)
     }
-    this.openChange()
-  },
-  closeMenu(state, { index }) {
-    const i = state.openIndexs.indexOf(index)
+    this.mutations.openChange.call(this)
+  }
+
+  closeMenu({ index }) {
+    const i = this.state.openIndexs.indexOf(index)
     if (i > -1) {
-      state.openIndexs.splice(i, 1)
-      this.openChange()
+      this.state.openIndexs.splice(i, 1)
+      this.mutations.openChange.call(this)
     }
-  },
-  selectMenu(state, { index }) {
-    state.selectedIndex = index
+  }
+
+  selectMenu({ index }) {
+    this.state.selectedIndex = index
 
     let item
     const deepNodes = (nodes) => {
@@ -85,16 +51,43 @@ Store.prototype.mutations = {
 
     deepNodes(this.component.$children)
     if (item) {
-      if (state.router) this.component.$router.push(this.state.selectedIndex)
+      if (this.state.router) this.component.$router.push(this.state.selectedIndex)
       this.component.$emit('onSelect', this.state.selectedIndex, item)
     }
   }
+
+  openChange() {
+    const deepNodes = (nodes) => {
+      nodes.forEach((node) => {
+        if (node.$options.name === 'VSubMenu') {
+          node.opened = this.state.openIndexs.indexOf(node.index) > -1
+        }
+        deepNodes(node.$children)
+      })
+    }
+    deepNodes(this.component.$children)
+    this.component.$emit('onOpenChange', this.state.openIndexs)
+  }
 }
 
-Store.prototype.commit = function commit(name, ...args) {
-  const mutations = this.mutations
-  if (mutations[name]) {
-    mutations[name].apply(this, [this.state].concat(args))
+class Store extends BaseStore {
+  constructor(component, initialState = {}) {
+    super(component, initialState)
+
+    this.state = {
+      ENUM_MODE: {
+        VERTICAL: 'vertical',
+        HORIZONTAL: 'horizontal',
+        INLINE: 'inline'
+      },
+      uniqueOpened: false,
+      openIndexs: [],
+      selectedIndex: '',
+      router: false
+    }
+    this.setState(initialState)
+
+    this.mutations = new Mutations()
   }
 }
 

@@ -8,6 +8,7 @@ import Menu from '../views/menu'
 import Dropdown from '../views/dropdown'
 import Input from '../views/input'
 import Select from '../views/select'
+import Collapse from '../views/collapse'
 import Forms from '../views/forms'
 import General from '../views/forms/general'
 import Special from '../views/forms/special'
@@ -49,6 +50,11 @@ const routes = [
     path: '/select',
     name: 'select',
     component: Select
+  },
+  {
+    path: '/collapse',
+    name: 'collapse',
+    component: Collapse
   },
   {
     path: '/forms',

@@ -5,6 +5,7 @@ import Menu from './menu'
 import Dropdown from './dropdown'
 import Input from './input'
 import Select from './select'
+import Collapse from './collapse'
 
 import VTransition from './transition'
 
@@ -25,6 +26,8 @@ const components = {
   Select,
   Option: Select.Option,
   OptionGroup: Select.OptionGroup,
+  Collapse,
+  Panel: Collapse.Panel,
   VTransition
 }
 
